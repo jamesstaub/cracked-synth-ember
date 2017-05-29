@@ -9,5 +9,9 @@ module.exports = {
     browser: true
   },
   rules: {
+  },
+  globals: {
+    "__": true,
+    "cracked":true,
   }
 };
