@@ -1,0 +1,22 @@
+.tone-lattice {
+  margin: 0 auto;
+  width: 100%;
+
+  .xaxis {
+    text-align: center;
+  }
+  .table-axis-wrapper {
+    display: flex;
+    .yaxis {
+          transform: translateX(100px) rotate(-90deg);
+    }
+  }
+  td {
+    padding: 10px;
+
+    &.active {
+      background-color: $gray;
+    }
+  }
+
+}
