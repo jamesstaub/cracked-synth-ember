@@ -21,8 +21,27 @@
 </table>
 </div>
 
-{{input
-  type="number"
-  name="loop-interval-input"
-  value=loopInterval
-}}
+<ul class="large-font">
+  <li>
+    sequency rate:
+    {{input
+      class="large-font"
+      type="number"
+      name="loop-interval-input"
+      value=loopInterval
+    }}
+  </li>
+  <li>
+    <button type="button"
+      name="toggle-play-osc"
+      {{action "togglePlayOsc"}}>
+      {{if isPlayingOsc "stop" "start"}}
+    </button>
+    <button type="button"
+      name="toggle-loop"
+      {{action "toggleLoop"}}>
+      {{if isLooping "freeze" "loop"}}
+    </button>
+  </li>
+
+</ul>

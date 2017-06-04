@@ -7,12 +7,17 @@
   }
   .table-axis-wrapper {
     display: flex;
+
     .yaxis {
           transform: translateX(100px) rotate(-90deg);
     }
   }
   td {
-    padding: 10px;
+    border-radius: 50%;
+    height: 30px;
+    padding: 12px;
+    text-align: center;
+    width: 30px;
 
     &.active {
       background-color: $gray;

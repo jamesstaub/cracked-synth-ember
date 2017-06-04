@@ -4,10 +4,13 @@ const {
   get,
   set,
   computed,
+  computed: {
+    toggleProperty,
+  },
 } = Ember;
 
 export default Ember.Component.extend({
-  classNames: ['tone-lattice'],
+  classNames: ['tone-lattice', 'normal-font'],
 
   toneLattice:[
     [12, 19, 26, 33, 40, 47, 54, 61, 68, 75, 82, 89],
@@ -66,9 +69,13 @@ export default Ember.Component.extend({
     //initial trigger on script load
     __("adsr").adsr("trigger");
 
-    __.play()
 
+    // TODO: refactor these and toggle actions into set method
+    // of computed property, so there's only one source of the propery + function call
+    __.play()
     __.loop(get(this, 'loopInterval'));
+    set(this, 'isLooping', true);
+    set(this, 'isPlayingOsc', true);
 
     // bind nodes to loop
     __("sine,square,saw,adsr,panner,lfo").bind("step", (index,data, /*array*/) => {
@@ -132,5 +139,27 @@ export default Ember.Component.extend({
       $element.addClass('active');
     })
   },
+
+  actions: {
+    togglePlayOsc() {
+      if (get(this, 'isPlayingOsc')){
+        __.stop();
+        __.loop("stop");
+      } else {
+        __.play();
+        __.loop("start");
+      }
+      this.toggleProperty('isPlayingOsc');
+    },
+
+    toggleLoop() {
+      if (get(this, 'isLooping')){
+        __.loop("stop");
+      } else {
+        __.loop("start");
+      }
+      this.toggleProperty('isLooping');
+    },
+  }
 
 });
