@@ -17,10 +17,17 @@
     height: 30px;
     padding: 12px;
     text-align: center;
+    transition: background-color 1000ms ease-in-out;
     width: 30px;
 
     &.active {
       background-color: $gray;
+    }
+  }
+
+  .controls {
+    .toggle-btn {
+      width: 100px;
     }
   }
 

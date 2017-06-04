@@ -5,9 +5,26 @@
 @import 'components/tone-lattice';
 
 
+
 li {
   list-style: none;
   a {
     text-decoration: none;
   }
+}
+
+.toggle-btn {
+  background-color: $white;
+  border: solid 1px $black;
+}
+
+button {
+  &:focus {
+    outline: none;
+  }
+}
+
+// composibility classes
+.inline-block {
+  display: inline-block;
 }

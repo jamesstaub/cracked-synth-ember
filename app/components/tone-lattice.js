@@ -25,13 +25,21 @@ export default Ember.Component.extend({
   loopInterval: computed({
     set(key, val) {
       let interval = parseInt(val);
+
       if (interval) {
         __.loop(interval);
 
+        if (get(this, 'domReady')){
+          // add css animation
+          this.$().find('.toneCell').css('transition', `background-color ${val * .75}ms ease-in-out`)
+        }
+
         return interval;
       }
+
     }
   }),
+
 
   init() {
     this._super(...arguments);
@@ -39,7 +47,7 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-
+    set(this, 'domReady', true);
     let oscCount = get(this, 'oscCount');
 
     __().compressor().dac();
