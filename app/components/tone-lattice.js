@@ -4,23 +4,12 @@ const {
   get,
   set,
   computed,
-  computed: {
-    toggleProperty,
-  },
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['tone-lattice', 'normal-font'],
 
-  toneLattice:[
-    [12, 19, 26, 33, 40, 47, 54, 61, 68, 75, 82, 89],
-    [24, 31, 38, 45, 52, 59, 66, 73, 80, 87, 94, 101],
-    [36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106, 113],
-    [48, 55, 62, 69, 76, 83, 90, 97, 104, 111, 118, 125],
-    [60, 67, 74, 81, 88, 95, 102, 109, 116, 123, 130, 137],
-    [72, 79, 86, 93, 100, 107, 114, 121, 128, 135, 142, 149]],
-
-  oscCount: 6, //number of oscillators
+  oscCount: 4, //number of oscillators
 
   loopInterval: computed({
     set(key, val) {
@@ -44,6 +33,8 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     set(this, 'loopInterval', 1000);
+
+    set(this, 'toneLattice', this._generateToneLattice());
   },
 
   didInsertElement() {
@@ -62,9 +53,9 @@ export default Ember.Component.extend({
     //create sinewaves in loop
     for(var i=0; i < oscCount ;i++){
       __().
-      sine({frequency: 60, id:i}).
+      square({frequency: 60, id:i}).
       adsr([attack, decay, sustain, hold, release]).
-      lowpass({frequency:2000, gain: -36}).
+      lowpass({frequency:9000, gain: -12}).
       gain(0.5/get(this, 'oscCount')).
       panner({id: 'pan'+i}).
       reverb({decay:3, seconds:3, reverse:true}).
@@ -102,7 +93,6 @@ export default Ember.Component.extend({
 
     // loop over each sine and assign it a frequency
     for(var i=0; i < oscCount; i++){
-
       let f = __.pitch2freq(notes[i]);
       __("#"+i).attr({frequency:f})
       __("#"+i).attr({detune:data * 20})
@@ -121,7 +111,8 @@ export default Ember.Component.extend({
     let activeTones = []; //2d array of coordinates for random tones selected by this function
 
     // go to random intial point in tonnetz matrix
-    let initial = [__.random(1,3), __.random(1,5)];
+    // TODO: refactor to dynamically get ranges from generated matrix
+    let initial = [__.random(1,7), __.random(1,7)];
 
     activeTones.push(initial);
 
@@ -130,6 +121,7 @@ export default Ember.Component.extend({
         // random coordinates within 1 step in either direction
       let randomRow = initial[0] + __.random(-1,1);
       let randomCol = initial[1] + __.random(-1,1);
+
       notes.push(get(this, 'toneLattice')[randomRow][randomCol]);
 
       activeTones.push([randomCol,randomRow]);
@@ -148,6 +140,23 @@ export default Ember.Component.extend({
     })
   },
 
+  _generateToneLattice(rowLen = 12, colLen = 12, rowInterval = 7, colInterval = 4, minimum = 24) {
+    const matrix = [];
+
+    const range = (start, end) => Array.from({ length: (end - start) }, (v, k) => k + start);
+
+    // range from lowest value to length of rows
+    let rowRange = range(minimum, rowLen + minimum);
+
+    // build matrix row by row
+    for (let row = 0; row < colLen; row++ ) {
+      matrix.push(rowRange
+        .map((x, idx) => (x + ((rowInterval - 1) * idx)) + (colInterval * row)));
+    }
+
+    return matrix;
+  },
+
   actions: {
     togglePlayOsc() {
       if (get(this, 'isPlayingOsc')){
@@ -155,7 +164,10 @@ export default Ember.Component.extend({
         __.loop("stop");
       } else {
         __.play();
-        __.loop("start");
+
+        if (get(this, 'isLooping')) {
+          __.loop("start");
+        }
       }
       this.toggleProperty('isPlayingOsc');
     },
