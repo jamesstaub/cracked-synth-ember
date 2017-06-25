@@ -47,13 +47,13 @@ export default Ember.Component.extend({
     let attack = 0;
     let decay = get(this, 'loopInterval') / 4000;
     let sustain = .7;
-    let hold = get(this, 'loopInterval') / 2000;
-    let release = get(this, 'loopInterval') / 4;
+    let hold = get(this, 'loopInterval') / 3000;
+    let release = get(this, 'loopInterval') / 8000;
 
     //create sinewaves in loop
     for(var i=0; i < oscCount ;i++){
       __().
-      square({frequency: 60, id:i}).
+      sine({frequency: 60, id:i}).
       adsr([attack, decay, sustain, hold, release]).
       lowpass({frequency:9000, gain: -12}).
       gain(0.5/get(this, 'oscCount')).

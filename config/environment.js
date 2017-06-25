@@ -21,7 +21,17 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    firebase: {
+      apiKey: "AIzaSyAr9s1UipP50SYJyfeQvlNVg9NLSr3yC5I",
+      authDomain: "cracked-doodles.firebaseapp.com",
+      databaseURL: "https://cracked-doodles.firebaseio.com",
+      projectId: "cracked-doodles",
+      storageBucket: "",
+      messagingSenderId: "888792921358"
     }
+
   };
 
   if (environment === 'development') {
