@@ -1,0 +1,9 @@
+<ul class="large-font">
+  {{#each routes as |route index|}}
+    <li class="nav-item {{if route.isCurrent 'active-route'}}">
+      {{#link-to route.route}}{{route.display}}{{/link-to}}
+    </li>
+  {{/each}}
+</ul>
+
+{{yield}}

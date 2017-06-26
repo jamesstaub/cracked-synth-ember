@@ -2,6 +2,14 @@
   margin: 0 auto;
   width: 100%;
 
+  .controls {
+    margin: 1rem 4rem;
+    .toggle-btn {
+      width: 100px;
+    }
+  }
+
+
   .xaxis {
     text-align: center;
   }
@@ -9,25 +17,25 @@
     display: flex;
 
     .yaxis {
-          transform: translateX(100px) rotate(-90deg);
+      height: 30px;
+      transform: translate(10px, 40px) rotate(-90deg);
+      width: 120px;
     }
+  }
+  p {
+    margin: 0;
   }
   td {
     border-radius: 50%;
     height: 30px;
     padding: 12px;
+    position: relative;
     text-align: center;
     transition: background-color 1000ms ease-in-out;
     width: 30px;
 
     &.active {
       background-color: $gray;
-    }
-  }
-
-  .controls {
-    .toggle-btn {
-      width: 100px;
     }
   }
 

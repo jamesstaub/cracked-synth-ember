@@ -104,6 +104,10 @@ export default Ember.Component.extend({
   __("adsr").adsr("trigger");
   },
 
+  willDestroyElement() {
+    __.loop("stop");
+  },
+
   _neighbors() {
     let oscCount = get(this, 'oscCount');
 
@@ -133,11 +137,13 @@ export default Ember.Component.extend({
   },
 
   _highlightActiveTones(activeTones) {
-    this.$().find('td').removeClass('active');
-    activeTones.forEach((coord)=>{
-      let $element = this.$().find(`[data-tone-row="${coord[0]}"][data-tone-col="${coord[1]}"]`);
-      $element.addClass('active');
-    })
+    if(this.$()) { //not sure why this.$() sometimes undefined
+      this.$().find('td').removeClass('active');
+      activeTones.forEach((coord)=>{
+        let $element = this.$().find(`[data-tone-row="${coord[0]}"][data-tone-col="${coord[1]}"]`);
+        $element.addClass('active');
+      })
+    }
   },
 
   _generateToneLattice(rowLen = 12, colLen = 12, rowInterval = 7, colInterval = 4, minimum = 24) {

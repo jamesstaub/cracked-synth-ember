@@ -1,0 +1,49 @@
+nav {
+  background-color: $gray;
+  flex: 0 0 220px;
+  width: 22rem;
+
+  ul {
+    padding: 0;
+    width: 100%;
+  }
+
+  li {
+    padding: 0 1rem;
+    &.active-route {
+      background-color: black;
+      a {
+        color: $white;
+      }
+    }
+
+    a {
+      color: $black;
+    }
+
+    &:active,
+    &:focus {
+      @extend .bold-font;
+      a {
+        color: white;
+        position: relative;
+
+        &:after {
+          animation: spin .5s linear infinite;
+          color: $white;
+          content: "☃";
+          text-align: center;
+          position: absolute;
+          right: -30px;
+          width: 10px;
+        }
+      }
+    }
+
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+@keyframes spin { 100% { transform:rotate(360deg); } }

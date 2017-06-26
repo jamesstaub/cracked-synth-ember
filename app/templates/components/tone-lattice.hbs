@@ -1,25 +1,5 @@
+
 {{yield}}
-<p class="xaxis">perfect 5ths</p>
-<div class="table-axis-wrapper">
-  <p class="yaxis">major 3rds</p>
-  <table>
-    {{#each toneLattice as |row rowIndex|}}
-    <tr>
-      <!-- {{row}} -->
-      {{#each row as |tone colIndex|}}
-      <td
-      id="tone-{{rowIndex}}-{{colIndex}}"
-      class="toneCell"
-      data-tone-col="{{colIndex}}"
-      data-tone-row="{{rowIndex}}"
-      >
-      {{tone}}
-    </td>
-    {{/each}}
-  </tr>
-  {{/each}}
-</table>
-</div>
 
 <div class="controls">
   <div class="inline-block">
@@ -47,4 +27,26 @@
 
   </button>
 
+</div>
+
+<p class="xaxis bold-font">perfect 5ths</p>
+<div class="table-axis-wrapper">
+  <p class="yaxis bold-font">major 3rds</p>
+  <table>
+    {{#each toneLattice as |row rowIndex|}}
+    <tr>
+      <!-- {{row}} -->
+      {{#each row as |tone colIndex|}}
+      <td
+      id="tone-{{rowIndex}}-{{colIndex}}"
+      class="toneCell"
+      data-tone-col="{{colIndex}}"
+      data-tone-row="{{rowIndex}}"
+      >
+      {{tone}}
+    </td>
+    {{/each}}
+  </tr>
+  {{/each}}
+</table>
 </div>

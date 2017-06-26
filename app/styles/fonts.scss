@@ -1,6 +1,13 @@
+@import 'https://fonts.googleapis.com/css?family=Maitree|Oswald:700|Open+Sans:300';
+
 body {
   font-size: 10px;
-  font-family: "Lucida Console", Monaco, monospace;
+  // font-family: "Lucida Console", Monaco, monospace;
+  font-family: Maitree, serif;
+}
+
+h1 {
+  font-family: Maitree, serif;
 }
 
 .large-font {
@@ -9,4 +16,8 @@ body {
 
 .normal-font {
   font-size: 1.2rem;
+}
+
+.bold-font {
+  font-weight: bold;
 }

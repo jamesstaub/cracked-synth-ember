@@ -1,9 +1,24 @@
 @import 'colors';
 @import 'fonts';
 
+@import 'components/nav-bar';
+
 @import 'components/osc-node';
 @import 'components/tone-lattice';
 
+body {
+  margin: 0;
+}
+
+.application-container {
+  display: flex;
+  width: 100%;
+
+  .content {
+    background: $lightgray;
+    flex: 1 0 auto;
+  }
+}
 
 
 li {
@@ -27,4 +42,8 @@ button {
 // composibility classes
 .inline-block {
   display: inline-block;
+}
+
+.fill-height {
+  height: 100vh;
 }
