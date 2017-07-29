@@ -5,3 +5,15 @@
     outputSelector='#master-compressor'
   }}
 {{/each}}
+
+<div>
+  <label for="lo">master volume</label>
+  <input
+    id="lo"
+    type="range"
+    onchange={{action "setDacGain"}}
+    onmousemove={{action "setDacGain"}}
+    name="dacGain"
+    min=0 max=85 steps=25
+  >
+</div>

@@ -105,6 +105,7 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
+    __("*").remove();
     __.loop("stop");
   },
 

@@ -1,8 +1,9 @@
 import Ember from 'ember';
-import E from 'cracked-synth-ember/utils/euclidean';
+// import E from 'cracked-synth-ember/utils/euclidean';
 
 const {
   get,
+  set,
   computed,
 } = Ember;
 
@@ -31,8 +32,10 @@ export default Ember.Component.extend({
       release:.1,
       id: 'master-compressor',
     })
-    .dac(.15);
+    .dac(get(this, 'dacGain'));
   },
+
+
 
   connectEffectsChains() {
     // in parallel connect samplers effects chains
@@ -128,6 +131,14 @@ export default Ember.Component.extend({
     __.loop("stop");
     __("*").remove();
   },
+
+  actions: {
+    setDacGain(evt) {
+      let gain = (evt.target.value * 1.2) / 100;
+      console.log(gain);
+      __('dac').attr({gain:gain});
+    }
+  }
 
 
 });
