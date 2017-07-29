@@ -1,0 +1,12 @@
+{{yield}}
+<h2>sound file</h2>
+<select onchange={{action "setValue"}}>
+  {{#each fileNames as |file| }}
+    <option
+      value={{file}}
+      selected={{if (eq file fileName) true}}
+    >
+      {{file}}
+  </option>
+{{/each}}
+</select>

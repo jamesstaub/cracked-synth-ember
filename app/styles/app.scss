@@ -6,6 +6,8 @@
 @import 'components/osc-node';
 @import 'components/tone-lattice';
 
+@import 'components/sampler-track';
+
 body {
   margin: 0;
 }
@@ -17,7 +19,7 @@ body {
   .content {
     background: $lightgray;
     flex: 1 0 auto;
-    padding: 1rem; 
+    padding: 1rem;
   }
 }
 

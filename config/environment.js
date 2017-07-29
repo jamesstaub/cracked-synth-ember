@@ -28,7 +28,7 @@ module.exports = function(environment) {
       authDomain: "cracked-doodles.firebaseapp.com",
       databaseURL: "https://cracked-doodles.firebaseio.com",
       projectId: "cracked-doodles",
-      storageBucket: "",
+      storageBucket: "cracked-doodles.appspot.com",
       messagingSenderId: "888792921358"
     }
 
