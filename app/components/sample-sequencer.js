@@ -20,6 +20,14 @@ export default Ember.Component.extend({
         {
           fileName: `snare3.wav`,
           filePath: path
+        },
+        {
+          fileName: `hihat.wav`,
+          filePath: path
+        },
+        {
+          fileName: `tomshakr.wav`,
+          filePath: path
         }
       ];
     }
@@ -135,7 +143,6 @@ export default Ember.Component.extend({
   actions: {
     setDacGain(evt) {
       let gain = (evt.target.value * 1.2) / 100;
-      console.log(gain);
       __('dac').attr({gain:gain});
     }
   }

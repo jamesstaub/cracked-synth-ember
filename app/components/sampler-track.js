@@ -16,7 +16,6 @@ export default Ember.Component.extend({
   }),
 
   isDisabled: false,
-  autoApply: true, // update settings continuously
 
   fullFileName: computed('filePath', 'fileName', {
     get() {
@@ -24,8 +23,19 @@ export default Ember.Component.extend({
     }
   }),
 
-  didReceiveAttrs() {
+  isLooping: computed({
+    set(key, value) {
+      {
+        __(`#${get(this, '_id')}`).attr({loop: value});
+        return value;
+      }
+    },
+  }),
+
+  init() {
     this._super(...arguments);
+    set(this, 'isLooping', false);
+    set(this, 'loopEnd', 1);
   },
 
   disconnectAll() {
@@ -44,7 +54,7 @@ export default Ember.Component.extend({
 
   bindStep() {
     __(`#${get(this,'_id')}`).bind("step",
-      get(this, 'onStepCallback'),
+      get(this, 'onStepCallback').bind(this),
       get(this,'sequence')
     );
   },
@@ -54,7 +64,14 @@ export default Ember.Component.extend({
     if (data) {
       __(this).stop();
       __(this).start();
+
+      if(get(this, 'isLooping')){
+        __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: get(this, 'loopEnd')});
+      }
+    } else {
+      __(`#${get(this, '_id')}`).attr({loop:false});
     }
+
   },
 
   actions: {
@@ -70,17 +87,18 @@ export default Ember.Component.extend({
       set(this, 'isDisabled', false);
       set(this, 'fullFileName', `${path}${name}`);
 
-      if (get(this, 'autoApply')) {
-        this.send('applySettings');
-      }
+      this.send('applySettings');
     },
     setEucSeq(seq) {
       set(this, 'isDisabled', false);
       set(this, 'sequence', seq);
+      this.send('applySettings');
+    },
 
-      if (get(this, 'autoApply')) {
-        this.send('applySettings');
-      }
+    setDecimalSlider(evt) {
+      let name = evt.target.name;
+      let val = evt.target.value / 100;
+      set(this, name, val);
     }
   }
 
