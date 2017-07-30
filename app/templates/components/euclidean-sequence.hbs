@@ -1,0 +1,27 @@
+<h2>euclidean sequence</h2>
+<h3>{{seq}}</h3>
+<div>
+  <div>
+    <label for="lo">hits</label>
+    <input
+    id="lo"
+    type="range"
+    onchange={{action "setValue"}}
+    value= {{lo}}
+    name="lo"
+    min=0 max=16 steps=16
+    >
+  </div>
+  <div>
+    <label for="hi">steps</label>
+    <input
+    id="hi"
+    type="range"
+    onchange={{action "setValue"}}
+    value= {{hi}}
+    name="hi"
+    min=0 max=16 steps=16
+    >
+
+  </div>
+</div>

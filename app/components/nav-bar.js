@@ -23,7 +23,8 @@ export default Ember.Component.extend({
 
   routes: [
     {route: 'index', display: 'home'},
-    {route: 'doodles', display: 'tone lattice'}
+    {route: 'doodles.tone-lattice', display: 'tone lattice'},
+    {route: 'doodles.sequencer', display: 'sequencer'},
   ],
 
 });

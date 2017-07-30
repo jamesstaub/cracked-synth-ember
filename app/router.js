@@ -7,7 +7,10 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('doodles');
+  this.route('doodles', function() {
+    this.route('tone-lattice');
+    this.route('sequencer');
+  });
 });
 
 export default Router;

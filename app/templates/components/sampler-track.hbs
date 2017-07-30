@@ -1,0 +1,39 @@
+{{yield}}
+<section>
+  {{sound-file-picker
+    fileName=fileName
+    filePath=filePath
+    onSetValue=(action "setSampleFile")
+  }}
+</section>
+
+<section>
+  {{euclidean-sequence
+    onSetSeq=(action "setEucSeq")
+  }}
+</section>
+
+<section>
+  <label>
+    {{input
+      type="checkbox"
+      name="toggle-loop"
+      checked=isLooping
+    }}
+    loop
+  </label>
+
+  <label>
+    {{input
+      type="range"
+      change=(action "setDecimalSlider")
+      name="loopEnd"
+      min=0 max=100 steps=50
+    }}
+  </label>
+
+
+  {{loopEnd}}
+
+
+</section>

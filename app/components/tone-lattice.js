@@ -32,8 +32,8 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    set(this, 'loopInterval', 1000);
-
+    set(this, 'loopInterval', 2000);
+// (rowLen = 12, colLen = 12, rowInterval = 7, colInterval = 4, minimum = 24
     set(this, 'toneLattice', this._generateToneLattice());
   },
 
@@ -48,7 +48,7 @@ export default Ember.Component.extend({
     let decay = get(this, 'loopInterval') / 4000;
     let sustain = .7;
     let hold = get(this, 'loopInterval') / 3000;
-    let release = get(this, 'loopInterval') / 8000;
+    let release = get(this, 'loopInterval') / 2000;
 
     //create sinewaves in loop
     for(var i=0; i < oscCount ;i++){
@@ -58,7 +58,7 @@ export default Ember.Component.extend({
       lowpass({frequency:9000, gain: -12}).
       gain(0.5/get(this, 'oscCount')).
       panner({id: 'pan'+i}).
-      reverb({decay:3, seconds:3, reverse:true}).
+      reverb({decay:3, seconds:3, reverse:false}).
       connect("compressor");
 
       __().lfo({type:"sine",gain:2, frequency: 2, modulates:'pan', id:'lfo'+i}).connect('panner');
@@ -105,6 +105,7 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
+    __("*").remove();
     __.loop("stop");
   },
 
