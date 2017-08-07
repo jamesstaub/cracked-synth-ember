@@ -6,6 +6,7 @@
 @import 'components/osc-node';
 @import 'components/tone-lattice';
 
+@import 'components/sample-sequencer';
 @import 'components/sampler-track';
 
 body {
@@ -34,6 +35,11 @@ li {
 .toggle-btn {
   background-color: $white;
   border: solid 1px $black;
+
+  &.active {
+    background-color: $dark-blue;
+    color: $white;
+  }
 }
 
 button {
@@ -49,4 +55,8 @@ button {
 
 .fill-height {
   height: 100vh;
+}
+
+.hidden {
+  display: none;
 }

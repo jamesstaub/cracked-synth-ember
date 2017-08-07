@@ -1,0 +1,29 @@
+.sample-sequencer {
+  .track-wrapper {
+    display: flex;
+    padding: 1rem 1rem 1rem 0;
+
+    input[type="radio"] {
+      display: none;
+    }
+
+
+    &.is-selected {
+      background-color: $gray;
+      .track-select-label {
+        background-color: $dark-blue;
+        border: solid 1px $gray;
+      }
+    }
+
+    .track-select-label {
+      padding: 1rem 3rem 1rem 0;
+      // background-color: $gray;
+      border: solid 1px $dark-blue;
+    }
+
+    .sampler-track {
+      left: 15px;
+    }
+  }
+}
