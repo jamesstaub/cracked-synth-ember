@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   _id: computed('elementId', {
     get() {
       // strip 'ember' out of id
+      // shared id with cracked sampler node
       return parseInt(get(this, 'elementId').substring(5));
     },
   }),
@@ -40,6 +41,14 @@ export default Ember.Component.extend({
     set(this, 'loopEnd', 1);
     set(this, 'speed', 1);
     set(this, 'selectedStep', 'all');
+
+    // dict of paramter values for each step
+    // in current sequence
+    let seqParamsDict = {
+      speed: new Array(16),
+      loopEnd: new Array(16),
+    };
+    set(this, 'seqParamsDict', seqParamsDict);
   },
 
   willDestroy() {
@@ -67,6 +76,12 @@ export default Ember.Component.extend({
     );
   },
 
+  allStepsSelected: computed('selectedStep', {
+    get() {
+      return get(this, 'selectedStep') === 'all';
+    }
+  }),
+
   // callback functions to be called on each step of sequencer
   onStepCallback(index, data){
     if (data) {
@@ -74,13 +89,21 @@ export default Ember.Component.extend({
       __(this).start();
 
     if(get(this, 'isLooping')){
-        __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: get(this, 'loopEnd')});
+        let loopEnd = get(this, 'allStepsSelected')
+          ? get(this, 'loopEnd')
+          : get(this, 'seqParamsDict')['loopEnd'][index];
+
+        __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
       }
     } else {
       __(`#${get(this, '_id')}`).attr({loop:false});
     }
 
-    __(`#${get(this, '_id')}`).attr({speed:get(this, 'speed')});
+    let speed = get(this, 'allStepsSelected')
+      ? get(this, 'speed')
+      : get(this, 'seqParamsDict')['speed'][index];
+
+    __(`#${get(this, '_id')}`).attr({speed: speed});
 
   },
 
@@ -93,7 +116,6 @@ export default Ember.Component.extend({
 
     setSampleFile(path, name) {
       set(this, 'fullFileName', `${path}${name}`);
-
       this.send('applySettings');
     },
     setEucSeq(seq) {
@@ -101,17 +123,29 @@ export default Ember.Component.extend({
       this.send('applySettings');
     },
 
-    setDecimalSlider(evt) {
-      // divide integer slider values by 100 and set property
+    setParam(evt) {
       let name = evt.target.name;
+
+      // divide integer slider values by 100 and set property
       let val = evt.target.value / 100;
-      set(this, name, val);
-      this.send('applySettings');
+      if (get(this, 'allStepsSelected')) {
+        set(this, name, val);
+        this.send('applySettings');
+      } else {
+
+        let parmsDict = get(this, 'seqParamsDict');
+        let selectedStep = get(this, 'selectedStep')
+
+        parmsDict[name][selectedStep] = val;
+      }
+
     },
 
     toggleControlGroup(evt) {
       let btn = evt.target;
       let name = btn.name;
+      set(this, 'visibleControlGroup', name);
+
       this.$().find(`.control-group`).addClass('hidden')
       this.$().find(`.control-group.${name}`).removeClass('hidden');
 
@@ -123,9 +157,8 @@ export default Ember.Component.extend({
       let name = evt.target.name;
 
       if (name === 'selectAllSteps') {
-        set(this, 'allStepsSelected', true);
+        set(this, 'selectedStep', 'all');
       } else {
-        set(this, 'allStepsSelected', false);
         let step = parseInt(name);
         set(this, 'selectedStep', step);
       }

@@ -36,16 +36,21 @@
   }
   .sequence-display {
     padding: 1rem 0;
-  }
-  .step-selector {
-    border: solid 2px $dark-blue;
-    padding: 10px;
 
-    &.is-selected {
-      border: solid 2px $gray;
-      background-color: $dark-blue;
+    .step-selector {
+      padding: 5px;
     }
 
+    &.params-active {
+      .step-selector {
+        border: solid 2px $dark-blue;
+
+        &.is-selected {
+          border: solid 2px $gray;
+          background-color: $dark-blue;
+        }
+      }
+    }
   }
 
 }

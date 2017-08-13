@@ -17,8 +17,7 @@
   <button class="toggle-control-group active toggle-btn" type="button" name="euclidean" onclick={{action "toggleControlGroup"}}>rhythm</button>
   <button class="toggle-control-group toggle-btn" type="button" name="params" onclick={{action "toggleControlGroup"}}>paramters</button>
 
-
-  <section class="sequence-display">
+  <section class="sequence-display {{visibleControlGroup}}-active">
     {{#each sequence as |step index|}}
       <label class="step-selector {{if (or (eq index selectedStep) allStepsSelected) "is-selected"}}">
         <input
@@ -30,7 +29,9 @@
         >
       </label>
     {{/each}}
-    <button type="button" name="selectAllSteps" onclick={{action "onSelectSeqStep"}}></button>
+    {{#if (eq visibleControlGroup 'params')}}
+      <button type="button" name="selectAllSteps" onclick={{action "onSelectSeqStep"}}>all</button>
+    {{/if}}
   </section>
 
   <section class="control-group euclidean">
@@ -50,12 +51,12 @@
     <div>
       <label>
         speed
-        <button type="button" name="speed" value=100 onclick={{action "setDecimalSlider"}}></button>
+        <button type="button" name="speed" value=100 onclick={{action "setParam"}}></button>
       </label>
       <label>
         {{input
           type="range"
-          change=(action "setDecimalSlider")
+          change=(action "setParam")
           name="speed"
           min=0 max=200 steps=1000
         }}
@@ -76,7 +77,7 @@
       <label>
         {{input
           type="range"
-          change=(action "setDecimalSlider")
+          change=(action "setParam")
           name="loopEnd"
           min=0 max=25 steps=50
         }}
