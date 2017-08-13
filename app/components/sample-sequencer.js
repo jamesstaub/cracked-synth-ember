@@ -3,31 +3,52 @@ import Ember from 'ember';
 
 const {
   get,
-  set,
   computed,
 } = Ember;
 
 export default Ember.Component.extend({
 
+  classNames: ['sample-sequencer'],
+
   tracks: computed('filepath', {
     get() {
       let path = '/samples/Kurzweil_K2000/';
       return [
-        {
+        { id:1,
           fileName: `kick.wav`,
-          filePath: path
+          filePath: path,
+          eucParams: {
+            hits: 2,
+            steps: 8,
+            offsetAmount: 0,
+          },
         },
-        {
+        { id:2,
           fileName: `snare3.wav`,
-          filePath: path
+          filePath: path,
+          eucParams: {
+            hits: 2,
+            steps: 8,
+            offsetAmount: 0,
+          },
         },
-        {
+        { id:3,
           fileName: `hihat.wav`,
-          filePath: path
+          filePath: path,
+          eucParams: {
+            hits: 2,
+            steps: 8,
+            offsetAmount: 0,
+          },
         },
-        {
+        { id:4,
           fileName: `tomshakr.wav`,
-          filePath: path
+          filePath: path,
+          eucParams: {
+            hits: 2,
+            steps: 8,
+            offsetAmount: 0,
+          },
         }
       ];
     }

@@ -1,4 +1,9 @@
 {{yield}}
+
+<section>
+  {{input type="checkbox" checked=isDisabled}}
+</section>
+
 <section>
   {{sound-file-picker
     fileName=fileName
@@ -7,33 +12,79 @@
   }}
 </section>
 
-<section>
-  {{euclidean-sequence
-    onSetSeq=(action "setEucSeq")
-  }}
-</section>
+<div class='expanded-controls'>
 
-<section>
-  <label>
-    {{input
-      type="checkbox"
-      name="toggle-loop"
-      checked=isLooping
+  <button class="toggle-control-group active toggle-btn" type="button" name="euclidean" onclick={{action "toggleControlGroup"}}>rhythm</button>
+  <button class="toggle-control-group toggle-btn" type="button" name="params" onclick={{action "toggleControlGroup"}}>paramters</button>
+
+  <section class="sequence-display {{visibleControlGroup}}-active">
+    {{#each sequence as |step index|}}
+      <label class="step-selector {{if (or (eq index selectedStep) allStepsSelected) "is-selected"}}">
+        <input
+          type="checkbox"
+          name={{index}}
+          value={{step}}
+          checked={{step}}
+          onclick={{action "onSelectSeqStep"}}
+        >
+      </label>
+    {{/each}}
+    {{#if (eq visibleControlGroup 'params')}}
+      <button type="button" name="selectAllSteps" onclick={{action "onSelectSeqStep"}}>all</button>
+    {{/if}}
+  </section>
+
+  <section class="control-group euclidean">
+    {{euclidean-sequence
+      onSetSeq=(action "setEucSeq")
+      hits=eucParams.hits
+      steps=eucParams.steps
+      offsetAmount=eucParams.offsetAmount
     }}
-    loop
-  </label>
+  </section>
 
-  <label>
-    {{input
-      type="range"
-      change=(action "setDecimalSlider")
-      name="loopEnd"
-      min=0 max=100 steps=50
-    }}
-  </label>
+  <section class="control-group params hidden">
+    <div class="control">
+      <p>set params for step <span class="bold-font">{{selectedStep}}</span> </p>
+    </div>
 
+    <div>
+      <label>
+        speed
+        <button type="button" name="speed" value=100 onclick={{action "setParam"}}></button>
+      </label>
+      <label>
+        {{input
+          type="range"
+          change=(action "setParam")
+          name="speed"
+          min=0 max=200 steps=1000
+        }}
+        {{speed}}
+      </label>
+    </div>
 
-  {{loopEnd}}
+    <div class="control toggle-slider">
+      <label>
+        {{input
+          type="checkbox"
+          name="toggle-loop"
+          checked=isLooping
+        }}
+        loop
+      </label>
 
+      <label>
+        {{input
+          type="range"
+          change=(action "setParam")
+          name="loopEnd"
+          min=0 max=25 steps=50
+        }}
+      </label>
+    </div>
 
-</section>
+    {{loopEnd}}
+
+  </section>
+</div>

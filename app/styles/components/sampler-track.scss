@@ -1,15 +1,56 @@
 .sampler-track {
-  border: solid 1px $black;
-  display: flex;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  margin: .5rem 0 1rem;
 
   h2 {
     margin: 0;
   }
 
   section {
-    padding: 1rem;
+    padding: .25rem;
+  }
+
+  .expanded-controls {
+    display: none;
+  }
+
+  &.is-selected {
+    .expanded-controls {
+      background-color: $gray;
+      display: inline;
+      position: relative;
+      width: 100%;
+    }
+  }
+
+  .sequence-display {
+    padding-left: 3rem;
+  }
+  .euclidean-controls {
+    position: relative;
+    width: 100%;
+    input {
+      left: 3rem;
+      position: absolute;
+      width: 320px;
+    }
+  }
+  .sequence-display {
+    padding: 1rem 0;
+
+    .step-selector {
+      padding: 5px;
+    }
+
+    &.params-active {
+      .step-selector {
+        border: solid 2px $dark-blue;
+
+        &.is-selected {
+          border: solid 2px $gray;
+          background-color: $dark-blue;
+        }
+      }
+    }
   }
 
 }

@@ -3,44 +3,70 @@ import E from 'cracked-synth-ember/utils/euclidean';
 
 const {
   get,
-  computed,
   set,
-  run: { next },
+  run: {next},
 } = Ember;
 
+Array.prototype.rotate = (function() {
+  // save references to array functions to make lookup faster
+  var push = Array.prototype.push,
+    splice = Array.prototype.splice;
+
+  return function(count) {
+    var len = this.length >>> 0; // convert to uint
+    count = count >> 0; // convert to int
+
+    // convert count to value in range [0, len)
+    count = ((count % len) + len) % len;
+
+    // use splice.call() instead of this.splice() to make function generic
+    push.apply(this, splice.call(this, 0, count));
+    return this;
+  };
+})();
+
 export default Ember.Component.extend({
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
-    set(this, 'lo', 2);
-    set(this, 'hi', 8);
+
+    // using next instead of fixing double update is kind of a hack
+    next(()=>{
+      this.calculateSequence();
+    })
   },
 
-  seq: computed('lo', 'hi', {
-    // // TODO: done use computed prop here bc
-    // it relies on value being printed in template
-    // to execute
-    get() {
-      // preserve lo, hi order
-      if (get(this, 'lo') > get(this, 'hi')) {
-        next(() => {
-          set(this, 'hi', get(this, 'lo'));
-        });
-      } else if (get(this, 'hi') < get(this, 'lo')) {
-        next(() => {
-          set(this, 'lo', get(this, 'hi'));
-        });
-      }
+  _offsetSeq(seq, amount) {
+    return seq.push(seq.slice(amount));
+  },
 
-      let seq = E(get(this, 'lo'), get(this, 'hi'));
-      get(this, 'onSetSeq')(seq);
-      return seq;
-    },
+  calculateSequence() {
+    let [hits, steps] = this._sortParameters(
+      get(this, 'hits'), get(this, 'steps')
+    );
 
-  }),
+    let seq = E(hits, steps)
+      .rotate(get(this, 'offsetAmount'));
+
+    get(this, 'onSetSeq')(seq);
+  },
+
+  _sortParameters(hits, steps) {
+    //for euclidean algorithm hits must always be lower than steps
+    let params = [hits, steps].sort((a, b)=>{
+      // method to sort by value, not alpha
+      return a - b;
+    });
+
+    set(this, 'hits', params[0]);
+    set(this, 'steps', params[1]);
+
+    return params;
+  },
 
   actions: {
     setValue(evt) {
       set(this, evt.target.name, parseInt(evt.target.value));
+      this.calculateSequence();
     }
   }
 

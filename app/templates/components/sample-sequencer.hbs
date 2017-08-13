@@ -1,12 +1,24 @@
 {{#each tracks as |track| }}
-  {{sampler-track
-    filePath=track.filePath
-    fileName=track.fileName
-    outputSelector='#master-compressor'
-  }}
+  <div class="track-wrapper {{if (eq currentTrackDisplay track.id) 'is-selected'}}">
+    <label class="track-select-label">
+      {{radio-button value=track.id
+        class="track-select-radio"
+        name="track-display-toggle"
+        checked=currentTrackDisplay}}
+    </label>
+
+    {{sampler-track
+      filePath=track.filePath
+      fileName=track.fileName
+      outputSelector='#master-compressor'
+      isSelected=(eq currentTrackDisplay track.id)
+      eucParams=track.eucParams
+    }}
+
+  </div>
 {{/each}}
 
-<div>
+<div class="mastercontrols">
   <label for="lo">master volume</label>
   <input
     id="lo"
