@@ -13,5 +13,7 @@ module.exports = {
   globals: {
     "__": true,
     "cracked":true,
+    "NexusUI": true,
+    "Nexus": true,
   }
 };
