@@ -22,9 +22,6 @@
     }
   }
 
-  .sequence-display {
-    padding-left: 3rem;
-  }
   .euclidean-controls {
     position: relative;
     width: 100%;
@@ -34,22 +31,13 @@
       width: 320px;
     }
   }
+
   .sequence-display {
-    padding: 1rem 0;
+    display: flex;
+    padding: 1rem 0 0;
 
     .step-selector {
       padding: 5px;
-    }
-
-    &.params-active {
-      .step-selector {
-        border: solid 2px $dark-blue;
-
-        &.is-selected {
-          border: solid 2px $gray;
-          background-color: $dark-blue;
-        }
-      }
     }
   }
 

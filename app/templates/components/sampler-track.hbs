@@ -1,10 +1,6 @@
 {{yield}}
 
 <section>
-  {{input type="checkbox" checked=isDisabled}}
-</section>
-
-<section>
   {{sound-file-picker
     fileName=fileName
     filePath=filePath
@@ -14,27 +10,43 @@
 
 <div class='expanded-controls'>
 
-  <button class="toggle-control-group active toggle-btn" type="button" name="euclidean" onclick={{action "toggleControlGroup"}}>rhythm</button>
-  <button class="toggle-control-group toggle-btn" type="button" name="params" onclick={{action "toggleControlGroup"}}>paramters</button>
-
-  <section class="sequence-display {{visibleControlGroup}}-active">
-    {{#each sequence as |step index|}}
-      <label class="step-selector {{if (or (eq index selectedStep) allStepsSelected) "is-selected"}}">
-        <input
-          type="checkbox"
-          name={{index}}
-          value={{step}}
-          checked={{step}}
-          onclick={{action "onSelectSeqStep"}}
-        >
-      </label>
-    {{/each}}
-    {{#if (eq visibleControlGroup 'params')}}
-      <button type="button" name="selectAllSteps" onclick={{action "onSelectSeqStep"}}>all</button>
-    {{/if}}
+  <section class="sequence-display">
+      <ul class="paramter-selector">
+        <li>loop end</li>
+        <li>speed</li>
+      </ul>
+    <table>
+      <tr>
+        {{#each sequence as |step index|}}
+          <td>
+            <label class="step-selector">
+              <input
+              type="checkbox"
+              name={{index}}
+              value={{step}}
+              checked={{step}}
+              onclick="return false;"
+              >
+            </label>
+          </td>
+        {{/each}}
+      </tr>
+      <tr>
+        {{#each seqParamsDict.speed as |value index|}}
+          {{#if (lt index sequence.length)}}
+            <td>
+              {{ui-dial
+                value=value
+                onChangeValue=(action 'setParamDial' 'speed' index)
+              }}
+            </td>
+          {{/if}}
+        {{/each}}
+      </tr>
+    </table>
   </section>
 
-  <section class="control-group euclidean">
+  <section class="control-group">
     {{euclidean-sequence
       onSetSeq=(action "setEucSeq")
       hits=eucParams.hits
@@ -43,26 +55,7 @@
     }}
   </section>
 
-  <section class="control-group params hidden">
-    <div class="control">
-      <p>set params for step <span class="bold-font">{{selectedStep}}</span> </p>
-    </div>
-
-    <div>
-      <label>
-        speed
-        <button type="button" name="speed" value=100 onclick={{action "setParam"}}></button>
-      </label>
-      <label>
-        {{input
-          type="range"
-          change=(action "setParam")
-          name="speed"
-          min=0 max=200 steps=1000
-        }}
-        {{speed}}
-      </label>
-    </div>
+  <section class="control-group track-level-params">
 
     <div class="control toggle-slider">
       <label>
@@ -73,18 +66,7 @@
         }}
         loop
       </label>
-
-      <label>
-        {{input
-          type="range"
-          change=(action "setParam")
-          name="loopEnd"
-          min=0 max=25 steps=50
-        }}
-      </label>
     </div>
-
-    {{loopEnd}}
 
   </section>
 </div>

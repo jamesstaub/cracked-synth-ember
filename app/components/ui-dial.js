@@ -7,6 +7,9 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
+  classNames: ['ui-dial'],
+  tagName: ['span'],
+
   init() {
     this._super(...arguments);
   },
@@ -17,30 +20,30 @@ export default Ember.Component.extend({
     },
   }),
 
-  didUpdateAttrs() {
-    
+  didInsertElement() {
+
     if (get(this, 'uiElement')) {
       get(this, 'uiElement').destroy();
     }
 
-    if (get(this, 'sliders')) {
-      set(this, 'width', get(this, 'sliders') * 33.5);
-
-      let uiElement =  new Nexus.Multislider(`#${get(this, 'nexusId')}`, {
-       'size': [get(this, 'width') ,100],
-       'numberOfSliders': get(this, 'sliders'),
-       'min': 0,
-       'max': 1,
-       'step': 0,
-     });
+    // if (get(this, 'value')) {
+      let uiElement =  new Nexus.Dial(`#${get(this, 'nexusId')}`, {
+        'size': [30,30],
+        'interaction': 'vertical', // "radial", "vertical", or "horizontal"
+        'mode': 'relative', // "absolute" or "relative"
+        'min': 0,
+        'max': 2,
+        'step': 0,
+        'value': get(this, 'value')
+      });
 
       set(this, 'uiElement', uiElement);
 
       uiElement.on('change',(v)=> {
         set(this, 'value', v);
-        get(this, 'onChangeValue'(v));
+        get(this, 'onChangeValue')(v);
       });
-    }
+    // }
   },
 
 });
