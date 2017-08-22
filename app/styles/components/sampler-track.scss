@@ -33,7 +33,10 @@
   }
 
   .sequence-display {
-    display: flex;
+    .ui-step-sequencer {
+      margin-left: 3rem;
+    }
+
     padding: 1rem 0 0;
 
     .step-selector {

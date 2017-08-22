@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
   },
+
   nexusId: computed('elementId', {
     get() {
       // strip 'ember' out of id
@@ -26,24 +27,23 @@ export default Ember.Component.extend({
       get(this, 'uiElement').destroy();
     }
 
-    // if (get(this, 'value')) {
-      let uiElement =  new Nexus.Dial(`#${get(this, 'nexusId')}`, {
-        'size': [30,30],
-        'interaction': 'vertical', // "radial", "vertical", or "horizontal"
-        'mode': 'relative', // "absolute" or "relative"
-        'min': 0,
-        'max': 2,
-        'step': 0,
-        'value': get(this, 'value')
-      });
+    let uiElement =  new Nexus.Dial(`#${get(this, 'nexusId')}`, {
+      'size': [30,30],
+      'interaction': 'vertical', // "radial", "vertical", or "horizontal"
+      'mode': 'relative', // "absolute" or "relative"
+      'min': 0,
+      'max': get(this, 'max') || 1,
+      'step': get(this, 'step') || 0,
+      'value': get(this, 'value')
+    });
 
-      set(this, 'uiElement', uiElement);
+    set(this, 'uiElement', uiElement);
 
-      uiElement.on('change',(v)=> {
-        set(this, 'value', v);
-        get(this, 'onChangeValue')(v);
-      });
-    // }
+    uiElement.on('change',(v)=> {
+      set(this, 'value', v);
+      get(this, 'onChangeValue')(v);
+    });
+
   },
 
 });

@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     set(this, 'loopEnd', 1);
     set(this, 'speed', 1);
 
-    // dict of paramter values for each step
+    // dict of parameter values for each step
     // in current sequence
     let seqParamsDict = {
       speed: new Array(16).fill(1),

@@ -11,12 +11,12 @@
 <div class='expanded-controls'>
 
   <section class="sequence-display">
-      <ul class="paramter-selector">
-        <li>loop end</li>
-        <li>speed</li>
-      </ul>
+
+    {{ui-step-sequencer sequence=sequence}}
+
     <table>
       <tr>
+        <td></td>
         {{#each sequence as |step index|}}
           <td>
             <label class="step-selector">
@@ -31,18 +31,30 @@
           </td>
         {{/each}}
       </tr>
-      <tr>
-        {{#each seqParamsDict.speed as |value index|}}
-          {{#if (lt index sequence.length)}}
-            <td>
-              {{ui-dial
-                value=value
-                onChangeValue=(action 'setParamDial' 'speed' index)
-              }}
-            </td>
-          {{/if}}
-        {{/each}}
-      </tr>
+
+      {{#step-param-row
+        paramName='speed'
+        parameterArray=seqParamsDict.speed
+        sequence=sequence as |row|
+      }}
+        {{ui-dial
+          value=row.value
+          onChangeValue=(action 'setParamDial' 'speed' row.index)
+        }}
+      {{/step-param-row}}
+
+      {{#step-param-row
+        paramName='loop end'
+        parameterArray=seqParamsDict.loopEnd
+        sequence=sequence as |row|
+      }}
+        {{ui-dial
+          value=row.value
+          onChangeValue=(action 'setParamDial' 'loopEnd' row.index)
+          max=0.5
+        }}
+      {{/step-param-row}}
+
     </table>
   </section>
 

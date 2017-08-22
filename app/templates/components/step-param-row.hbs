@@ -1,0 +1,8 @@
+<td>{{paramName}}</td>
+{{#each parameterArray as |value index|}}
+  {{#if (lt index sequence.length)}}
+    <td>
+      {{yield (hash value=value index=index) }}
+    </td>
+  {{/if}}
+{{/each}}
