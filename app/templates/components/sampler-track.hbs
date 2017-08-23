@@ -37,22 +37,43 @@
         parameterArray=seqParamsDict.speed
         sequence=sequence as |row|
       }}
-        {{ui-dial
-          value=row.value
-          onChangeValue=(action 'setParamDial' 'speed' row.index)
-        }}
+        {{#if row.isStepControl}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'speed' row.index)
+            max=2
+          }}
+        {{else}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'speed' 'all')
+            isMacro=true
+            max=2
+          }}
+        {{/if}}
       {{/step-param-row}}
 
       {{#step-param-row
-        paramName='loop end'
+        paramName='loop length'
         parameterArray=seqParamsDict.loopEnd
+        toggleProperty=isLegato
+        toggleName='sustained loop'
         sequence=sequence as |row|
       }}
-        {{ui-dial
-          value=row.value
-          onChangeValue=(action 'setParamDial' 'loopEnd' row.index)
-          max=0.5
-        }}
+        {{#if row.isStepControl}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'loopEnd' row.index)
+            max=0.5
+          }}
+        {{else}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'loopEnd' 'all')
+            isMacro=true
+            max=0.5
+          }}
+        {{/if}}
       {{/step-param-row}}
 
     </table>
@@ -67,18 +88,4 @@
     }}
   </section>
 
-  <section class="control-group track-level-params">
-
-    <div class="control toggle-slider">
-      <label>
-        {{input
-          type="checkbox"
-          name="toggle-loop"
-          checked=isLooping
-        }}
-        loop
-      </label>
-    </div>
-
-  </section>
 </div>

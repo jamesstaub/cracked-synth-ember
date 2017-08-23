@@ -2,7 +2,21 @@
 {{#each parameterArray as |value index|}}
   {{#if (lt index sequence.length)}}
     <td>
-      {{yield (hash value=value index=index) }}
+      {{yield (hash value=value index=index isStepControl=true) }}
     </td>
   {{/if}}
 {{/each}}
+
+
+{{yield}}
+
+
+{{#if toggleName}}
+  <label>
+    {{input
+      type="checkbox"
+      checked=toggleProperty
+    }}
+    {{toggleName}}
+  </label>
+{{/if}}

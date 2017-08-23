@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     let matrix = new Nexus.Matrix(1, length);
 
     // TODO: generalize ui element sizes to a global config
-    let width = length * 33;
+    let width = length * 34.1;
 
     let sequencer =  new Nexus.Sequencer(`#${get(this, 'nexusId')}`, {
       'size': [width,30],

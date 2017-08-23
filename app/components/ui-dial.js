@@ -1,49 +1,33 @@
 import Ember from 'ember';
+import NexusMixin from 'cracked-synth-ember/mixins/nexus-ui-config';
 
 const {
   get,
-  set,
   computed,
 } = Ember;
 
-export default Ember.Component.extend({
+const { service } = Ember.inject;
+
+export default Ember.Component.extend(NexusMixin, {
   classNames: ['ui-dial'],
   tagName: ['span'],
 
-  init() {
-    this._super(...arguments);
-  },
+  seqConfig: service(),
 
-  nexusId: computed('elementId', {
+  ElementName: 'Dial',
+
+  ElementOptions: computed('max', 'step', 'value', {
     get() {
-      // strip 'ember' out of id
-      return parseInt(get(this, 'elementId').substring(5));
-    },
-  }),
-
-  didInsertElement() {
-
-    if (get(this, 'uiElement')) {
-      get(this, 'uiElement').destroy();
+      return {
+        'size': [30,30],
+        'interaction': 'vertical', // "radial", "vertical", or "horizontal"
+        'mode': 'relative', // "absolute" or "relative"
+        'min': 0,
+        'max': get(this, 'max') || 1,
+        'step': get(this, 'step') || 0,
+        'value': get(this, 'value')
+      }
     }
-
-    let uiElement =  new Nexus.Dial(`#${get(this, 'nexusId')}`, {
-      'size': [30,30],
-      'interaction': 'vertical', // "radial", "vertical", or "horizontal"
-      'mode': 'relative', // "absolute" or "relative"
-      'min': 0,
-      'max': get(this, 'max') || 1,
-      'step': get(this, 'step') || 0,
-      'value': get(this, 'value')
-    });
-
-    set(this, 'uiElement', uiElement);
-
-    uiElement.on('change',(v)=> {
-      set(this, 'value', v);
-      get(this, 'onChangeValue')(v);
-    });
-
-  },
+  }),
 
 });

@@ -24,14 +24,14 @@ export default Ember.Component.extend({
     }
   }),
 
-  isLooping: computed({
-    set(key, value) {
-      {
-        __(`#${get(this, '_id')}`).attr({loop: value});
-        return value;
-      }
-    },
-  }),
+  // isLooping: computed({
+  //   set(key, value) {
+  //     {
+  //       __(`#${get(this, '_id')}`).attr({loop: value});
+  //       return value;
+  //     }
+  //   },
+  // }),
 
   init() {
     this._super(...arguments);
@@ -90,7 +90,9 @@ export default Ember.Component.extend({
         __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
       }
     } else {
-      __(`#${get(this, '_id')}`).attr({loop:false});
+      if (!get(this, 'isLegato')) {
+        __(`#${get(this, '_id')}`).attr({loop:false});
+      }
     }
 
   },
@@ -112,8 +114,13 @@ export default Ember.Component.extend({
     },
 
     setParamDial(parameter, index, value) {
-      let dict = get(this, 'seqParamsDict');
-      dict[parameter][index] = value;
+      let paramDict = get(this, 'seqParamsDict');
+      if (index === 'all') {
+        set(this, `seqParamsDict.${parameter}`, paramDict[parameter].map(()=> value));
+      } else {
+        paramDict[parameter][index] = value;
+      }
+
     },
   }
 
