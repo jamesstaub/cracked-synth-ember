@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 const {
   get,
+  set,
   computed,
 } = Ember;
 
@@ -141,6 +142,11 @@ export default Ember.Component.extend({
     //
     // __("#hihat").bind("step", this.seqCBs.sampleNoteOn, E(13, 16));
     //
+  },
+
+  init() {
+    this._super(...arguments);
+    set(this, 'currentTrackDisplay', 1);
   },
 
   didInsertElement() {

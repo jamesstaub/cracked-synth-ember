@@ -1,10 +1,6 @@
 {{yield}}
 
 <section>
-  {{input type="checkbox" checked=isDisabled}}
-</section>
-
-<section>
   {{sound-file-picker
     fileName=fileName
     filePath=filePath
@@ -14,27 +10,76 @@
 
 <div class='expanded-controls'>
 
-  <button class="toggle-control-group active toggle-btn" type="button" name="euclidean" onclick={{action "toggleControlGroup"}}>rhythm</button>
-  <button class="toggle-control-group toggle-btn" type="button" name="params" onclick={{action "toggleControlGroup"}}>paramters</button>
+  <section class="sequence-display">
 
-  <section class="sequence-display {{visibleControlGroup}}-active">
-    {{#each sequence as |step index|}}
-      <label class="step-selector {{if (or (eq index selectedStep) allStepsSelected) "is-selected"}}">
-        <input
-          type="checkbox"
-          name={{index}}
-          value={{step}}
-          checked={{step}}
-          onclick={{action "onSelectSeqStep"}}
-        >
-      </label>
-    {{/each}}
-    {{#if (eq visibleControlGroup 'params')}}
-      <button type="button" name="selectAllSteps" onclick={{action "onSelectSeqStep"}}>all</button>
-    {{/if}}
+    {{ui-step-sequencer sequence=sequence}}
+
+    <table>
+      <tr>
+        <td></td>
+        {{#each sequence as |step index|}}
+          <td>
+            <label class="step-selector">
+              <input
+              type="checkbox"
+              name={{index}}
+              value={{step}}
+              checked={{step}}
+              onclick="return false;"
+              >
+            </label>
+          </td>
+        {{/each}}
+      </tr>
+
+      {{#step-param-row
+        paramName='speed'
+        parameterArray=seqParamsDict.speed
+        sequence=sequence as |row|
+      }}
+        {{#if row.isStepControl}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'speed' row.index)
+            max=2
+          }}
+        {{else}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'speed' 'all')
+            isMacro=true
+            max=2
+          }}
+        {{/if}}
+      {{/step-param-row}}
+
+      {{#step-param-row
+        paramName='loop length'
+        parameterArray=seqParamsDict.loopEnd
+        toggleProperty=isLegato
+        toggleName='sustained loop'
+        sequence=sequence as |row|
+      }}
+        {{#if row.isStepControl}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'loopEnd' row.index)
+            max=0.5
+          }}
+        {{else}}
+          {{ui-dial
+            value=row.value
+            onChangeValue=(action 'setParamDial' 'loopEnd' 'all')
+            isMacro=true
+            max=0.5
+          }}
+        {{/if}}
+      {{/step-param-row}}
+
+    </table>
   </section>
 
-  <section class="control-group euclidean">
+  <section class="control-group">
     {{euclidean-sequence
       onSetSeq=(action "setEucSeq")
       hits=eucParams.hits
@@ -43,48 +88,4 @@
     }}
   </section>
 
-  <section class="control-group params hidden">
-    <div class="control">
-      <p>set params for step <span class="bold-font">{{selectedStep}}</span> </p>
-    </div>
-
-    <div>
-      <label>
-        speed
-        <button type="button" name="speed" value=100 onclick={{action "setParam"}}></button>
-      </label>
-      <label>
-        {{input
-          type="range"
-          change=(action "setParam")
-          name="speed"
-          min=0 max=200 steps=1000
-        }}
-        {{speed}}
-      </label>
-    </div>
-
-    <div class="control toggle-slider">
-      <label>
-        {{input
-          type="checkbox"
-          name="toggle-loop"
-          checked=isLooping
-        }}
-        loop
-      </label>
-
-      <label>
-        {{input
-          type="range"
-          change=(action "setParam")
-          name="loopEnd"
-          min=0 max=25 steps=50
-        }}
-      </label>
-    </div>
-
-    {{loopEnd}}
-
-  </section>
 </div>

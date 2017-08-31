@@ -18,35 +18,32 @@ export default Ember.Component.extend({
     },
   }),
 
-  trackEnabled: false,
-
   fullFileName: computed('filePath', 'fileName', {
     get() {
       return `${get(this, 'filePath')}${get(this, 'fileName')}`;
     }
   }),
 
-  isLooping: computed({
-    set(key, value) {
-      {
-        __(`#${get(this, '_id')}`).attr({loop: value});
-        return value;
-      }
-    },
-  }),
+  // isLooping: computed({
+  //   set(key, value) {
+  //     {
+  //       __(`#${get(this, '_id')}`).attr({loop: value});
+  //       return value;
+  //     }
+  //   },
+  // }),
 
   init() {
     this._super(...arguments);
     set(this, 'isLooping', true);
     set(this, 'loopEnd', 1);
     set(this, 'speed', 1);
-    set(this, 'selectedStep', 'all');
 
-    // dict of paramter values for each step
+    // dict of parameter values for each step
     // in current sequence
     let seqParamsDict = {
-      speed: new Array(16),
-      loopEnd: new Array(16),
+      speed: new Array(16).fill(1),
+      loopEnd: new Array(16).fill(1),
     };
     set(this, 'seqParamsDict', seqParamsDict);
   },
@@ -76,34 +73,27 @@ export default Ember.Component.extend({
     );
   },
 
-  allStepsSelected: computed('selectedStep', {
-    get() {
-      return get(this, 'selectedStep') === 'all';
-    }
-  }),
-
   // callback functions to be called on each step of sequencer
   onStepCallback(index, data){
     if (data) {
       __(this).stop();
       __(this).start();
 
+      let speed = get(this, 'seqParamsDict')['speed'][index];
+
+      __(`#${get(this, '_id')}`).attr({speed: speed});
+
+
     if(get(this, 'isLooping')){
-        let loopEnd = get(this, 'allStepsSelected')
-          ? get(this, 'loopEnd')
-          : get(this, 'seqParamsDict')['loopEnd'][index];
+        let loopEnd = get(this, 'seqParamsDict')['loopEnd'][index];
 
         __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
       }
     } else {
-      __(`#${get(this, '_id')}`).attr({loop:false});
+      if (!get(this, 'isLegato')) {
+        __(`#${get(this, '_id')}`).attr({loop:false});
+      }
     }
-
-    let speed = get(this, 'allStepsSelected')
-      ? get(this, 'speed')
-      : get(this, 'seqParamsDict')['speed'][index];
-
-    __(`#${get(this, '_id')}`).attr({speed: speed});
 
   },
 
@@ -123,48 +113,15 @@ export default Ember.Component.extend({
       this.send('applySettings');
     },
 
-    setParam(evt) {
-      let name = evt.target.name;
-
-      // divide integer slider values by 100 and set property
-      let val = evt.target.value / 100;
-      if (get(this, 'allStepsSelected')) {
-        set(this, name, val);
-        this.send('applySettings');
+    setParamDial(parameter, index, value) {
+      let paramDict = get(this, 'seqParamsDict');
+      if (index === 'all') {
+        set(this, `seqParamsDict.${parameter}`, paramDict[parameter].map(()=> value));
       } else {
-
-        let parmsDict = get(this, 'seqParamsDict');
-        let selectedStep = get(this, 'selectedStep')
-
-        parmsDict[name][selectedStep] = val;
+        paramDict[parameter][index] = value;
       }
 
     },
-
-    toggleControlGroup(evt) {
-      let btn = evt.target;
-      let name = btn.name;
-      set(this, 'visibleControlGroup', name);
-
-      this.$().find(`.control-group`).addClass('hidden')
-      this.$().find(`.control-group.${name}`).removeClass('hidden');
-
-      this.$().find(`.toggle-control-group`).removeClass('active');
-      this.$(btn).toggleClass('active');
-    },
-
-    onSelectSeqStep(evt) {
-      let name = evt.target.name;
-
-      if (name === 'selectAllSteps') {
-        set(this, 'selectedStep', 'all');
-      } else {
-        let step = parseInt(name);
-        set(this, 'selectedStep', step);
-      }
-      return false;
-    }
-
   }
 
 
