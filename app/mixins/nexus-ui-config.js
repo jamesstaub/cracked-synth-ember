@@ -13,6 +13,7 @@ export default Ember.Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
+    
     if (get(this, 'NexusElement')) {
       get(this, 'NexusElement').destroy();
     }

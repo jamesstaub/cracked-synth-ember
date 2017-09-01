@@ -1,10 +1,6 @@
 import Ember from 'ember';
 import NexusMixin from 'cracked-synth-ember/mixins/nexus-ui-config';
-
-const {
-  get,
-  computed,
-} = Ember;
+import { get, computed } from "@ember/object";
 
 const { service } = Ember.inject;
 

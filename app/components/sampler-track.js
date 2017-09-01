@@ -1,10 +1,7 @@
 import Ember from 'ember';
 
-const {
-  get,
-  set,
-  computed,
-} = Ember;
+import { get, set, computed } from "@ember/object";
+
 
 export default Ember.Component.extend({
   classNames: ['sampler-track'],
@@ -24,20 +21,12 @@ export default Ember.Component.extend({
     }
   }),
 
-  // isLooping: computed({
-  //   set(key, value) {
-  //     {
-  //       __(`#${get(this, '_id')}`).attr({loop: value});
-  //       return value;
-  //     }
-  //   },
-  // }),
-
   init() {
     this._super(...arguments);
     set(this, 'isLooping', true);
     set(this, 'loopEnd', 1);
     set(this, 'speed', 1);
+    set(this, 'trackGain', 0);
 
     // dict of parameter values for each step
     // in current sequence
@@ -53,21 +42,27 @@ export default Ember.Component.extend({
   },
 
   disconnectAll() {
-    __(`#${get(this, '_id')}`).unbind("step");
+    __(`.${get(this, '_id')}`).unbind("step");
     __(get(this, '_id')).remove();
   },
 
   buildNode() {
     __()
     .sampler({
-      id: `${get(this, '_id')}`,
+      class: `${get(this, '_id')}`,
       path: get(this, 'fullFileName'),
     })
+    .gain({
+      class:`${get(this, '_id')}-gain`,
+    })
     .connect(get(this, 'outputSelector'));
+
+    __(`.${get(this, '_id')}-gain`).volume(get(this, 'trackGain'));
+
   },
 
   bindStep() {
-    __(`#${get(this,'_id')}`).bind("step",
+    __(`.${get(this,'_id')}`).bind("step",
       get(this, 'onStepCallback').bind(this),
       get(this,'sequence')
     );
@@ -80,18 +75,17 @@ export default Ember.Component.extend({
       __(this).start();
 
       let speed = get(this, 'seqParamsDict')['speed'][index];
-
-      __(`#${get(this, '_id')}`).attr({speed: speed});
+      __(`.${get(this, '_id')}`).attr({speed: speed});
 
 
     if(get(this, 'isLooping')){
         let loopEnd = get(this, 'seqParamsDict')['loopEnd'][index];
 
-        __(`#${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
+        __(`.${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
       }
     } else {
       if (!get(this, 'isLegato')) {
-        __(`#${get(this, '_id')}`).attr({loop:false});
+        __(`.${get(this, '_id')}`).attr({loop:false});
       }
     }
 
@@ -108,11 +102,24 @@ export default Ember.Component.extend({
       set(this, 'fullFileName', `${path}${name}`);
       this.send('applySettings');
     },
+
     setEucSeq(seq) {
       set(this, 'sequence', seq);
       this.send('applySettings');
     },
 
+    setTrackValue(parameter, value){
+
+      if(parameter == 'trackGain') {
+        // shitty amplitude to db
+        // value = __.scale(value, 1, 0, 0, 100, 'logarithmic') * -1;
+        __(`.${get(this, '_id')}-gain`).volume(value);
+      }
+      set(this, parameter, value);
+
+    },
+
+    // TODO: rename this to make it a general action for setting onstep values (not dial specific)
     setParamDial(parameter, index, value) {
       let paramDict = get(this, 'seqParamsDict');
       if (index === 'all') {

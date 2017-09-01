@@ -27,7 +27,7 @@ export default Ember.Component.extend({
       get(this, 'uiElement').destroy();
     }
     let length = get(this, 'sequence.length');
-    let matrix = new Nexus.Matrix(1, length);
+    // let matrix = new Nexus.Matrix(1, length);
 
     // TODO: generalize ui element sizes to a global config
     let width = length * 34.1;
@@ -45,7 +45,6 @@ export default Ember.Component.extend({
 
     sequencer.on('change',(v)=> {
       set(this, 'value', v);
-      console.log(v);
     });
 
   },
