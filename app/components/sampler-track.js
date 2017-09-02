@@ -26,7 +26,7 @@ export default Ember.Component.extend({
     set(this, 'isLooping', true);
     set(this, 'loopEnd', 1);
     set(this, 'speed', 1);
-    set(this, 'trackGain', 0);
+    set(this, 'trackGain', .7);
 
     // dict of parameter values for each step
     // in current sequence
@@ -75,17 +75,16 @@ export default Ember.Component.extend({
       __(this).start();
 
       let speed = get(this, 'seqParamsDict')['speed'][index];
-      __(`.${get(this, '_id')}`).attr({speed: speed});
-
+      __(this).attr({speed: speed});
 
     if(get(this, 'isLooping')){
         let loopEnd = get(this, 'seqParamsDict')['loopEnd'][index];
-
-        __(`.${get(this, '_id')}`).attr({loop:true, start: 0, end: loopEnd});
+        __(this).attr({loop:true, start: 0, end: loopEnd});
       }
+
     } else {
       if (!get(this, 'isLegato')) {
-        __(`.${get(this, '_id')}`).attr({loop:false});
+        __(this).attr({loop:false});
       }
     }
 

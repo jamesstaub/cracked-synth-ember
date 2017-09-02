@@ -11,7 +11,7 @@
 <div class='expanded-controls'>
 
   <section class="sequence-display">
-    {{ui-slider onChangeValue=(action "setTrackValue" "trackGain")}}
+    {{ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
     {{trackGain}}
     {{ui-step-sequencer sequence=sequence}}
 
