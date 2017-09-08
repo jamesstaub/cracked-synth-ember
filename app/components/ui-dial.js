@@ -8,6 +8,11 @@ export default Ember.Component.extend(NexusMixin, {
   classNames: ['ui-dial'],
   tagName: ['span'],
 
+  didInsertElement() {
+    this._super(...arguments);
+    this._nexusInit();
+  },
+
   seqConfig: service(),
 
   ElementName: 'Dial',

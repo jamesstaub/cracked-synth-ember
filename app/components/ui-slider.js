@@ -5,13 +5,18 @@ import { get, computed } from "@ember/object";
 export default Ember.Component.extend(NexusMixin, {
   classNames: ['ui-slider'],
 
+  didInsertElement() {
+    this._super(...arguments);
+    this._nexusInit();
+  },
+
   ElementName: 'Slider',
 
   ElementOptions: computed('max', 'step', 'value', {
     get() {
 
       return {
-        'size': [20,100],
+        'size': [20,80],
         'mode': 'relative', // "absolute" or "relative"
         'min': 0,
         'max': get(this, 'max') || 1,

@@ -77,11 +77,11 @@ export default Ember.Component.extend({
       let speed = get(this, 'seqParamsDict')['speed'][index];
       __(this).attr({speed: speed});
 
+
     if(get(this, 'isLooping')){
         let loopEnd = get(this, 'seqParamsDict')['loopEnd'][index];
         __(this).attr({loop:true, start: 0, end: loopEnd});
       }
-
     } else {
       if (!get(this, 'isLegato')) {
         __(this).attr({loop:false});
@@ -113,6 +113,7 @@ export default Ember.Component.extend({
         // shitty amplitude to db
         // value = __.scale(value, 1, 0, 0, 100, 'logarithmic') * -1;
         __(`.${get(this, '_id')}-gain`).volume(value);
+         value = Math.round(value * 100) / 100;
       }
       set(this, parameter, value);
 

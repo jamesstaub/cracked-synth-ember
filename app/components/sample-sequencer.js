@@ -156,7 +156,7 @@ export default Ember.Component.extend({
     // this.buildSamplerNodes();
 
     __().play();
-    __.loop(250);
+    __.loop(200);
 
     this.bindSamplersToSequences();
     __.loop("start");

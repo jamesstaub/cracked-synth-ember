@@ -11,9 +11,7 @@ export default Ember.Mixin.create({
     },
   }),
 
-  didInsertElement() {
-    this._super(...arguments);
-    
+  _nexusInit() {
     if (get(this, 'NexusElement')) {
       get(this, 'NexusElement').destroy();
     }
@@ -26,12 +24,14 @@ export default Ember.Mixin.create({
 
     set(this, 'NexusElement', NexusElement);
 
-    NexusElement.on('change',(v)=> {
-      set(this, 'value', v);
+    if (get(this, 'onChangeValue')) {
+      NexusElement.on('change',(v)=> {
+        set(this, 'value', v);
 
-      // components using this mixin must have an action onChangeValue passed in
-      get(this, 'onChangeValue')(v);
-    });
+        // components using this mixin must have an action onChangeValue passed in
+        get(this, 'onChangeValue')(v);
+      });
+    }
   },
 
   willDestroyElement() {

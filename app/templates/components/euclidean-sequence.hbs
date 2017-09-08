@@ -2,40 +2,40 @@
   <div>
     <label for="hits">hits</label>
     <input
-    id="hits"
-    type="range"
-    onchange={{action "setValue"}}
-    value= {{hits}}
-    name="hits"
-    min=0 max=16 steps=16
+      id="hits"
+      type="range"
+      onchange={{action "setValue"}}
+      value= {{hits}}
+      name="hits"
+      min=0 max=16 steps=16
     > <span class="small-font">{{hits}}</span>
   </div>
   <div>
     <label for="steps">steps</label>
     <input
-    id="steps"
-    type="range"
-    onchange={{action "setValue"}}
-    value= {{steps}}
-    name="steps"
-    min=0 max=16 steps=16
+      id="steps"
+      type="range"
+      onchange={{action "setValue"}}
+      value= {{steps}}
+      name="steps"
+      min=0 max=16 steps=16
     >
     <span class="small-font">{{steps}}</span>
   </div>
   <div>
     <label for="offset">offset</label>
     <input
-    id="offset"
-    type="range"
-    onchange={{action "setValue"}}
-    value={{offsetAmount}}
-    name="offsetAmount"
-    min=0 max={{steps}} steps={{steps}}
+      id="offset"
+      type="range"
+      onchange={{action "setValue"}}
+      value={{offsetAmount}}
+      name="offsetAmount"
+      min=0 max={{steps}} steps={{steps}}
     > <span class="small-font">{{offsetAmount}}</span>
   </div>
 </div>
-<div class="sequence-display">
+<!-- <div class="sequence-display">
   {{#each seq as |step|}}
     <input type="checkbox" value={{step}} checked={{step}} onclick="return false;">
   {{/each}}
-</div>
+</div> -->

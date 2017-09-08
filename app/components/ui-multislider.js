@@ -7,18 +7,14 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
-  init() {
+  didInsertElement() {
     this._super(...arguments);
+    this._nexusInit();
   },
-  nexusId: computed('elementId', {
-    get() {
-      // strip 'ember' out of id
-      return parseInt(get(this, 'elementId').substring(5));
-    },
-  }),
+
 
   didUpdateAttrs() {
-    
+
     if (get(this, 'uiElement')) {
       get(this, 'uiElement').destroy();
     }
