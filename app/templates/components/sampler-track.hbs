@@ -8,11 +8,21 @@
   }}
 </section>
 
-<div class='expanded-controls'>
+<div>
+  <section class="control-group">
+    <div>
+      {{ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
+      {{trackGain}}
+    </div>
+    {{euclidean-sequence
+      onSetSeq=(action "setEucSeq")
+      hits=eucParams.hits
+      steps=eucParams.steps
+      offsetAmount=eucParams.offsetAmount
+    }}
+  </section>
 
   <section class="sequence-display">
-    {{ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
-    {{trackGain}}
     {{ui-step-sequencer sequence=sequence}}
 
     <table>
@@ -78,15 +88,6 @@
       {{/step-param-row}}
 
     </table>
-  </section>
-
-  <section class="control-group">
-    {{euclidean-sequence
-      onSetSeq=(action "setEucSeq")
-      hits=eucParams.hits
-      steps=eucParams.steps
-      offsetAmount=eucParams.offsetAmount
-    }}
   </section>
 
 </div>

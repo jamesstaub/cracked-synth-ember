@@ -45,7 +45,6 @@ export default Ember.Component.extend(NexusMixin, {
 
   didUpdateAttrs() {
     this._super(...arguments);
-
     this._nexusInit();
 
     if (get(this, 'sequence')) {
@@ -70,7 +69,7 @@ export default Ember.Component.extend(NexusMixin, {
     __(`.${get(this,'samplerId')}`).bind('step', ()=>{
         let sequencer = get(this, 'NexusElement');
         sequencer.next();
-      },get(this,'sequence'));
+      }, get(this,'sequence'));
   },
 
 });

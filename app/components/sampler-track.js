@@ -5,7 +5,6 @@ import { get, set, computed } from "@ember/object";
 
 export default Ember.Component.extend({
   classNames: ['sampler-track'],
-  classNameBindings: ['isSelected'],
 
   _id: computed('elementId', {
     get() {

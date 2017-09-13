@@ -1,17 +1,10 @@
 {{#each tracks as |track| }}
-  <div class="track-wrapper {{if (eq currentTrackDisplay track.id) 'is-selected'}}">
-    <label class="track-select-label">
-      {{radio-button value=track.id
-        class="track-select-radio"
-        name="track-display-toggle"
-        checked=currentTrackDisplay}}
-    </label>
+  <div class="track-wrapper">
 
     {{sampler-track
       filePath=track.filePath
       fileName=track.fileName
       outputSelector='#master-compressor'
-      isSelected=(eq currentTrackDisplay track.id)
       eucParams=track.eucParams
     }}
 

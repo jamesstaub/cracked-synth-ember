@@ -1,5 +1,9 @@
 .sampler-track {
+  background-color: $gray;
+  display: inline;
   margin: .5rem 0 1rem;
+  position: relative;
+  width: 100%;
 
   h2 {
     margin: 0;
@@ -9,22 +13,10 @@
     padding: .25rem;
   }
 
-  .main-controls {
+  .control-group {
     display: flex;
   }
 
-  .expanded-controls {
-    display: none;
-  }
-
-  &.is-selected {
-    .expanded-controls {
-      background-color: $gray;
-      display: inline;
-      position: relative;
-      width: 100%;
-    }
-  }
 
   .euclidean-controls {
     position: relative;
