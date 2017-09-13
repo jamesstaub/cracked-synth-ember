@@ -1,10 +1,6 @@
 {{yield}}
 
-<section class="main-controls">
-  {{#ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
-    {{trackGain}}
-  {{/ui-slider}}
-
+<section>
   {{sound-file-picker
     fileName=fileName
     filePath=filePath
@@ -12,12 +8,13 @@
   }}
 </section>
 
-<section class="sequence-display">
-  {{ui-step-sequencer sequence=sequence samplerId=_id}}
-</section>
-
 <div class='expanded-controls'>
+
   <section class="sequence-display">
+    {{ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
+    {{trackGain}}
+    {{ui-step-sequencer sequence=sequence}}
+
     <table>
       <tr>
         <td></td>
