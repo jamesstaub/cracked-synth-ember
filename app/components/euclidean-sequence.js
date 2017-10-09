@@ -26,6 +26,8 @@ Array.prototype.rotate = (function() {
 })();
 
 export default Ember.Component.extend({
+  classNames: ['euclidean-sequence'],
+
   didReceiveAttrs() {
     this._super(...arguments);
 

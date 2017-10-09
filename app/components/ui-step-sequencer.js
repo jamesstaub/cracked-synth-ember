@@ -64,8 +64,12 @@ export default Ember.Component.extend(NexusMixin, {
   bindStep() {
     // on every step of the cracked step sequencer,
     // advance the NexusUI sequencer interface to next step (visual only)
-    __(`.${get(this,'samplerId')}`).unbind('step');
 
+    // FIXME: this is creating a new binding every time the attributes update
+    // either refactor this to only happen once after everything is loaded, or see if
+    // there's a way to unbind just this method without screwing up the sampler tracks other bindings
+
+    // __(`.${get(this,'samplerId')}`).unbind('step');
     __(`.${get(this,'samplerId')}`).bind('step', ()=>{
         let sequencer = get(this, 'NexusElement');
         sequencer.next();

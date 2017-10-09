@@ -10,10 +10,12 @@
 
 <div>
   <section class="control-group">
-    <div>
+
+    <div class="gain-slider">
       {{ui-slider value=trackGain onChangeValue=(action "setTrackValue" "trackGain")}}
       {{trackGain}}
     </div>
+
     {{euclidean-sequence
       onSetSeq=(action "setEucSeq")
       hits=eucParams.hits
@@ -23,25 +25,9 @@
   </section>
 
   <section class="sequence-display">
-    {{ui-step-sequencer sequence=sequence}}
+    {{ui-step-sequencer sequence=sequence samplerId=_id}}
 
     <table>
-      <tr>
-        <td></td>
-        {{#each sequence as |step index|}}
-          <td>
-            <label class="step-selector">
-              <input
-              type="checkbox"
-              name={{index}}
-              value={{step}}
-              checked={{step}}
-              onclick="return false;"
-              >
-            </label>
-          </td>
-        {{/each}}
-      </tr>
 
       {{#step-param-row
         paramName='speed'

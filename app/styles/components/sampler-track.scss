@@ -17,14 +17,17 @@
     display: flex;
   }
 
+  .euclidean-sequence {
+    padding: 20px;
 
-  .euclidean-controls {
-    position: relative;
-    width: 100%;
-    input {
-      left: 3rem;
-      position: absolute;
-      width: 320px;
+    .euclidean-controls {
+      position: relative;
+      width: 100%;
+      input {
+        left: 3rem;
+        position: absolute;
+        width: 560px;
+      }
     }
   }
 
@@ -33,7 +36,7 @@
       margin-left: 3.5rem;
     }
 
-    padding: 1rem 0 0;
+    padding: 1rem 2.7rem 0;
 
     .step-selector {
       padding: 5px;
