@@ -1,9 +1,11 @@
+{{log track.hits}}
+{{log track.steps}}
 {{yield}}
 
 <section>
   {{sound-file-picker
-    fileName=fileName
-    filePath=filePath
+    fileName=track.fileName
+    filePath=track.filePath
     onSetValue=(action "setSampleFile")
   }}
 </section>
@@ -18,9 +20,9 @@
 
     {{euclidean-sequence
       onSetSeq=(action "setEucSeq")
-      hits=eucParams.hits
-      steps=eucParams.steps
-      offsetAmount=eucParams.offsetAmount
+      hits=track.hits
+      steps=track.steps
+      offsetAmount=track.offsetAmount
     }}
   </section>
 

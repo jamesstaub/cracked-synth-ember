@@ -9,51 +9,11 @@ const {
 
 export default Ember.Component.extend({
 
-  classNames: ['sample-sequencer'],
+  didUpdateAttrs() {
+    this._super(...arguments);
+  },
 
-  tracks: computed('filepath', {
-    get() {
-      let path = '/samples/Kurzweil_K2000/';
-      return [
-        { id:1,
-          fileName: `kick.wav`,
-          filePath: path,
-          eucParams: {
-            hits: 2,
-            steps: 8,
-            offsetAmount: 0,
-          },
-        },
-        { id:2,
-          fileName: `snare3.wav`,
-          filePath: path,
-          eucParams: {
-            hits: 2,
-            steps: 8,
-            offsetAmount: 0,
-          },
-        },
-        { id:3,
-          fileName: `hihat.wav`,
-          filePath: path,
-          eucParams: {
-            hits: 2,
-            steps: 8,
-            offsetAmount: 0,
-          },
-        },
-        { id:4,
-          fileName: `tomshakr.wav`,
-          filePath: path,
-          eucParams: {
-            hits: 2,
-            steps: 8,
-            offsetAmount: 0,
-          },
-        }
-      ];
-    }
-  }),
+  classNames: ['sample-sequencer'],
 
   initSignalChain() {
     // create a compressor -> DAC node for other nodes to connect to

@@ -33,6 +33,7 @@ export default Ember.Component.extend({
       speed: new Array(16).fill(1),
       loopEnd: new Array(16).fill(1),
     };
+
     set(this, 'seqParamsDict', seqParamsDict);
   },
 
@@ -46,6 +47,7 @@ export default Ember.Component.extend({
   },
 
   buildNode() {
+
     __()
     .sampler({
       class: `${get(this, '_id')}`,
