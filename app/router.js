@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('tone-lattice');
     this.route('sequencer');
   });
+  this.route('matrix');
 });
 
 export default Router;
